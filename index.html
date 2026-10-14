@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Scoot Trip">
+<meta name="theme-color" content="#111111">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="icon" href="assets/icon-192.png">
+<title>Utah Boyz Scoot Trip</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+<div id="game"></div>
+<div id="touch"></div>
+<div id="ui">
+  <!-- in-game HUD -->
+  <div id="hud" class="hidden">
+    <div id="hud-left">
+      <div id="hud-points"><span class="coin">★</span><span id="pts">0</span></div>
+      <div id="hud-zone"></div>
+    </div>
+    <div id="hud-buttons">
+      <button id="btn-spots" class="hbtn" title="Spots">📍</button>
+      <button id="btn-cam" class="hbtn" title="Camera">🎥</button>
+      <button id="btn-reset" class="hbtn" title="Reset">↺</button>
+      <button id="btn-menu" class="hbtn" title="Menu">☰</button>
+    </div>
+    <div id="trick"></div>
+    <div id="trick-pts"></div>
+    <div id="chain"></div>
+    <div id="grind"></div>
+    <div id="horse-bar" class="hidden"></div>
+    <div id="hint-l" class="hint">LEFT THUMB<br>flick ↑ to push · steer ← →<br>pull ↓ to brake</div>
+    <div id="hint-r" class="hint">RIGHT THUMB<br>pull ↓ then let go = hop<br>in the air: hold to spin/flip<br>flick diagonals = tricks</div>
+  </div>
+
+  <!-- title / rider select -->
+  <div id="title" class="screen">
+    <div class="title-bg"></div>
+    <div class="title-inner">
+      <h1>UTAH BOYZ<span>SCOOT TRIP</span></h1>
+      <div id="riders"></div>
+      <div class="menu-buttons">
+        <button class="big" data-go="woodward">🛹 WOODWARD PARK</button>
+        <button class="big" data-go="moab">🏜️ MOAB</button>
+        <button class="big alt" data-go="horse">🐴 H.O.R.S.E.</button>
+        <button class="big alt" data-go="garage">🔧 GARAGE</button>
+      </div>
+      <div class="foot">Dane #72 · Tucker #65 · <a href="#" id="howto">How to ride</a></div>
+    </div>
+  </div>
+
+  <!-- garage -->
+  <div id="garage" class="screen hidden">
+    <div class="panel">
+      <div class="panel-head"><h2>GARAGE</h2><button class="close" data-close>✕</button></div>
+      <div class="garage-body">
+        <div class="col">
+          <h3>Scooters</h3><div id="scooters"></div>
+        </div>
+        <div class="col">
+          <h3>Colors</h3><div id="colors"></div>
+          <h3>Tricks</h3><div id="tricklist"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- spots -->
+  <div id="spots" class="screen hidden">
+    <div class="panel small">
+      <div class="panel-head"><h2>GO TO…</h2><button class="close" data-close>✕</button></div>
+      <div id="spot-list"></div>
+    </div>
+  </div>
+
+  <!-- pause -->
+  <div id="pause" class="screen hidden">
+    <div class="panel">
+      <div class="panel-head"><h2>PAUSED</h2><button class="close" data-close>✕</button></div>
+      <div class="menu-buttons col">
+        <button class="big" id="p-resume">▶ KEEP RIDING</button>
+        <button class="big alt" id="p-garage">🔧 GARAGE</button>
+        <button class="big alt" id="p-help">❓ HOW TO RIDE</button>
+        <button class="big alt" id="p-quit">🏠 MAIN MENU</button>
+      </div>
+      <div id="chal-list"></div>
+    </div>
+  </div>
+
+  <!-- how to ride -->
+  <div id="help" class="screen hidden">
+    <div class="panel">
+      <div class="panel-head"><h2>HOW TO RIDE</h2><button class="close" data-close>✕</button></div>
+      <div class="help-body">
+        <div class="help-col">
+          <h3>👈 LEFT THUMB</h3>
+          <p><b>Flick UP</b> = kick-push (hold up to keep pushing)</p>
+          <p><b>Left / Right</b> = steer</p>
+          <p><b>Pull DOWN</b> = foot brake</p>
+        </div>
+        <div class="help-col">
+          <h3>RIGHT THUMB 👉</h3>
+          <p><b>Pull DOWN, then let go</b> (or flick up) = bunny hop. Do it right at the lip of a ramp to <b>boost</b> higher.</p>
+          <p>In the air, <b>hold LEFT/RIGHT</b> = spin 180, 360, 540…</p>
+          <p><b>Hold DOWN</b> = backflip · <b>hold UP</b> = front flip</p>
+          <p><b>Flick diagonals</b>: ↙ Tailwhip · ↘ Barspin · ↖ Whiplash · ↗ Bri Flip. Flick again quickly for a double!</p>
+          <p>Land square (or fakie) and finish your tricks before you touch down. Land on rails and coping to grind.</p>
+        </div>
+      </div>
+      <p class="help-foot">Points unlock better scooters, new colors and harder tricks. Land tricks back-to-back for a LINE multiplier.</p>
+    </div>
+  </div>
+
+  <!-- HORSE -->
+  <div id="horse" class="screen hidden">
+    <div class="panel">
+      <div class="panel-head"><h2>🐴 H.O.R.S.E.</h2><button class="close" data-close>✕</button></div>
+      <div id="horse-body"></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+  <div id="rotate"><div>🔄</div>Turn the iPad sideways to ride!</div>
+  <div id="loading" class="screen hidden"><div class="spinner"></div><div id="loading-text">Building the park…</div></div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

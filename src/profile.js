@@ -4,11 +4,11 @@ import { TRICKS } from './tricks.js';
 const KEY = 'ubscoot.v1';
 
 export const SCOOTERS = [
-  { id: 'starter', name: 'Starter Pro', unlock: 0, stats: { pushSpeed: 7.6, pushPower: 1.9, pop: 1.0, spin: 540, flip: 430, trick: 1.0, turn: 1.0 } },
-  { id: 'street', name: 'Street Pro', unlock: 4000, stats: { pushSpeed: 8.3, pushPower: 2.1, pop: 1.07, spin: 610, flip: 470, trick: 1.12, turn: 1.05 } },
-  { id: 'park', name: 'Park Shredder', unlock: 15000, stats: { pushSpeed: 9.0, pushPower: 2.3, pop: 1.13, spin: 680, flip: 520, trick: 1.25, turn: 1.1 } },
-  { id: 'mega', name: 'Mega Ripper', unlock: 40000, stats: { pushSpeed: 9.8, pushPower: 2.5, pop: 1.2, spin: 760, flip: 580, trick: 1.38, turn: 1.12 } },
-  { id: 'gold', name: 'Gold Grom', unlock: 100000, stats: { pushSpeed: 10.5, pushPower: 2.7, pop: 1.28, spin: 860, flip: 650, trick: 1.52, turn: 1.15 } },
+  { id: 'starter', name: 'Starter Pro', unlock: 0, stats: { pushSpeed: 11, pushPower: 3.0, pop: 1.0, spin: 560, flip: 440, trick: 1.0, turn: 1.0 } },
+  { id: 'street', name: 'Street Pro', unlock: 4000, stats: { pushSpeed: 12, pushPower: 3.2, pop: 1.07, spin: 620, flip: 480, trick: 1.12, turn: 1.04 } },
+  { id: 'park', name: 'Park Shredder', unlock: 15000, stats: { pushSpeed: 13, pushPower: 3.4, pop: 1.13, spin: 690, flip: 530, trick: 1.25, turn: 1.08 } },
+  { id: 'mega', name: 'Mega Ripper', unlock: 40000, stats: { pushSpeed: 14, pushPower: 3.6, pop: 1.2, spin: 770, flip: 590, trick: 1.38, turn: 1.1 } },
+  { id: 'gold', name: 'Gold Grom', unlock: 100000, stats: { pushSpeed: 15, pushPower: 3.8, pop: 1.28, spin: 870, flip: 660, trick: 1.52, turn: 1.12 } },
 ];
 
 export const COLORS = [

@@ -93,7 +93,7 @@ export function buildWoodward() {
     spine(W, -80, 28, 0, { h: 2.2, r: 3, w: 10 });
     quarter(W, -92.5, 28, Math.PI, { h: 2.2, r: 3, w: 10, deck: 2 });
     quarter(W, -67.5, 28, 0, { h: 2.2, r: 3, w: 10, deck: 2 });
-    W.spot('Spine', -73, 28, Math.PI, 5);
+    W.spot('Spine', -73, 28, Math.PI, 7);
     W.zones.push({ name: 'Spine', x: -80, z: 28, r: 12 });
   }
 
@@ -122,7 +122,7 @@ export function buildWoodward() {
     table(W, -16, z, 0, { h: 2.0, up: 4.0, top: 4.5, down: 6.0, w: 5, assist: true });
     gapJump(W, 12, z, 0, { h: 2.4, up: 4.5, gap: 7, landH: 2.4, deck: 1.2, down: 7, w: 5 });
     quarter(W, 46, z, 0, { h: 3, r: 3.6, w: 10, deck: 2 });
-    W.spot('Jump Line', -75, z, 0, 7.5);
+    W.spot('Jump Line', -75, z, 0, 10);
     W.zones.push({ name: 'Jump Line', x: -20, z, r: 42 });
     const s = sign(['JUMP LINE'], 8, 2, { bg: '#2a9d8f', fg: '#fff' });
     s.position.set(-70, 3, z - 3.5); W.add(s);
@@ -152,7 +152,7 @@ export function buildWoodward() {
     funbox(W, 78, 82, 0, { h: 0.9, bankLen: 2.4, top: 4, w: 5, rail: true });
     bank(W, 100, 45, 0, { h: 1.6, len: 3.5, w: 12, deck: 2, top: 'park' });
     bank(W, 95, 92, -Math.PI / 2, { h: 1.2, len: 3, w: 10, deck: 2, top: 'park' });
-    W.spot('Street Plaza', 40, 50, 0, 3);
+    W.spot('Street Plaza', 40, 50, 0, 5);
     W.spot('Big Stairs', 55, 22, Math.PI / 2, 4);
     W.zones.push({ name: 'Street Plaza', x: 60, z: 60, r: 40 });
     for (const [x, z] of [[20, 45], [85, 50], [40, 95], [70, 40]]) lightPole(W, x, z);
@@ -188,7 +188,7 @@ export function buildWoodward() {
     // a second, bigger lane into the same pit from the north side
     const k2 = arc(6, 2.4, 14);
     placeProfile(W, 75, -94, Math.PI / 2, [[-8, 0], ...k2], 5, { top: 'skatelite' });
-    W.spot('Foam Pit Big Kicker', 75, -99, Math.PI / 2, 8.5);
+    W.spot('Foam Pit Big Kicker', 75, -97, Math.PI / 2, 9.5);
     W.zones.push({ name: 'The Hangar', x: 75, z: -79, r: 26 });
   }
 
@@ -229,8 +229,8 @@ export function buildWoodward() {
     // euro gap: bank up to a ledge with a gap
     bank(W, -20, 55, 0, { h: 1.0, len: 2.5, w: 5, deck: 1, top: 'park' });
     ledge(W, -11, 55, 0, { len: 6, h: 1.0, w: 5, surf: 'park' });
-    W.spot('Pyramid', 0, 52, Math.PI / 2, 5);
-    W.spot('Rainbow Rail', -24, 92, 0, 6);
+    W.spot('Pyramid', 0, 52, Math.PI / 2, 7);
+    W.spot('Rainbow Rail', -24, 92, 0, 8);
     W.zones.push({ name: 'Pyramid', x: 0, z: 70, r: 12 });
     W.zones.push({ name: 'Rainbow Rail', x: -6, z: 92, r: 10 });
   }
@@ -238,7 +238,7 @@ export function buildWoodward() {
   {
     kicker(W, -30, -30, 0, { h: 1.4, len: 3.0, w: 4 });
     quarter(W, -10, -30, 0, { h: 4.2, r: 4.8, w: 12, deck: 2.5 });
-    W.spot('Big Launch', -48, -30, 0, 8.5);
+    W.spot('Big Launch', -48, -30, 0, 11);
     W.zones.push({ name: 'Big Launch', x: -18, z: -30, r: 14 });
   }
   // ---------------- painted floor zones ----------------

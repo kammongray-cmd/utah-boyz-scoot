@@ -2,6 +2,7 @@
 // tailwhip spins the deck around the stem, barspin spins the bars, whiplash rolls the deck,
 // bri flip flips the whole scooter around the bars.
 import * as THREE from 'three';
+import { loadRiderGlb, SkinnedRider } from './skinned.js';
 
 export const RIDERS = {
   dane: {
@@ -78,6 +79,11 @@ export class RiderModel {
     this.crouch = 0.2; this.t = 0;
     this.buildScooter(colors);
     this.buildBody(R);
+    this.skin = null;
+    loadRiderGlb(riderId).then(g => {
+      this.skin = new SkinnedRider(g, this.inner, R.helmet, R.stripe);
+      this.body.visible = false;
+    }).catch(e => console.warn('rider model', e));
   }
 
   buildScooter(c) {
@@ -92,6 +98,7 @@ export class RiderModel {
     this.briPivot = new THREE.Group(); this.briPivot.position.set(HX, GY, 0);
     this.inner.add(this.briPivot);
     const off = new THREE.Group(); off.position.set(-HX, -GY, 0); this.briPivot.add(off);
+    this.gripMk = [-0.23, 0.23].map(z => { const o = new THREE.Object3D(); o.position.set(HX + 0.01, GY + 0.02, z); off.add(o); return o; });
     // front: barspin turns this around the stem
     this.front = new THREE.Group(); this.front.position.set(HX, 0, 0); off.add(this.front);
     const wheel = (parent, x) => {
@@ -255,6 +262,20 @@ export class RiderModel {
       this.upper[i].set(sh, elbow); this.fore[i].set(elbow, hand);
       this.hands[i].position.copy(hand);
       this.cuffs[i].position.lerpVectors(elbow, hand, 0.82);
+    }
+    // ---- the real rigged rider (once loaded) ----
+    if (this.skin) {
+      this.root.updateMatrixWorld(true);
+      const fh = this.skin.footH;
+      const fF = new THREE.Vector3(0.1, 0.13 + fh + fu * 0.3, -0.06);
+      const fB = new THREE.Vector3(-0.14, 0.13 + fh + fu * 0.34, 0.06);
+      if (p.kick > 0) {
+        const ph = 1 - p.kick, s2 = Math.sin(ph * Math.PI);
+        fB.set(-0.05 - 0.42 * s2, fh + 0.1 * Math.max(0, Math.sin(ph * Math.PI * 2)), 0.15);
+      }
+      const hands = this.gripMk.map(m => this.inner.worldToLocal(m.getWorldPosition(new THREE.Vector3())));
+      if (armsOut) { hands[0].set(0.2, 1.3, -0.45); hands[1].set(0.2, 1.3, 0.45); }
+      this.skin.pose({ crouch: c, lean, footF: fF, footB: fB, handL: hands[0], handR: hands[1] });
     }
     // ---- bail tumble ----
     if (p.mode === 'bail') {

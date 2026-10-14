@@ -3,7 +3,7 @@
 import os, time, json
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 files = ['./']
-for d in ['', 'src', 'src/world', 'vendor', 'assets']:
+for d in ['', 'src', 'src/world', 'vendor', 'vendor/jsm/loaders', 'vendor/jsm/utils', 'assets']:
     for f in sorted(os.listdir(os.path.join(root, d) if d else root)):
         p = os.path.join(d, f) if d else f
         if os.path.isdir(os.path.join(root, p)) or f.startswith('.') or f == 'sw.js' or f.endswith('.md') or f.endswith('.py'):

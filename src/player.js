@@ -82,7 +82,8 @@ export class Player {
       else if (this.charging) { this.charging = false; this.pop(this.charge, R.y < -0.4); this.charge = 0; }
     } else { this.charging = false; this.charge = 0; }
 
-    this.steer = Math.abs(L.x) > 0.12 ? L.x : 0;
+    // quick steering: small thumb moves already turn, full turn at ~2/3 of the stick
+    this.steer = Math.abs(L.x) > 0.08 ? Math.sign(L.x) * Math.min(1, (Math.abs(L.x) - 0.04) * 1.6) : 0;
     this.brake = L.y > 0.5 ? L.y : 0;
 
     if (this.mode === 'air') this.airControls(dt, input);
@@ -147,7 +148,7 @@ export class Player {
   }
 
   push(auto) {
-    if (this.mode !== 'ground' || this.kick > 0.35) return;
+    if (this.mode !== 'ground' || this.kick > 0.45) return;
     const f = this.forward(_f);
     let along = this.vel.dot(f);
     if (along < -0.5) { this.heading += Math.PI; this.revert -= Math.PI; this.forward(f); along = -along; }
@@ -280,7 +281,7 @@ export class Player {
     const sp = v.length();
     // steering (reversed when rolling backwards so left is always "my left")
     const dirSign = along < -0.3 ? -1 : 1;
-    const turn = THREE.MathUtils.lerp(2.9, 1.5, Math.min(1, sp / 13)) * this.stats.turn;
+    const turn = THREE.MathUtils.lerp(3.8, 2.4, Math.min(1, sp / 16)) * this.stats.turn;
     this.heading += this.steer * turn * dt * dirSign;
     this.forward(f);
     // gravity (the ground pushes back below, so on a slope only the downhill part is left)
@@ -288,7 +289,7 @@ export class Player {
     // friction + drag + brake
     const mat = hf.material(p.x, p.z);
     const fr = FRICTION[mat] ?? 0.012;
-    const drag = fr * G + 0.0016 * sp * sp + this.brake * 5.5;
+    const drag = fr * G + 0.0009 * sp * sp + this.brake * 6;
     if (sp > 1e-3) v.multiplyScalar(Math.max(0, sp - drag * dt) / sp);
     // auto-pump: dropping down a transition gives a little speed (like a real rider pumping)
     if (n.y < 0.96 && n.y > 0.2 && v.y < -0.5 && sp < 11.5) v.multiplyScalar(1 + 1.3 * dt / Math.max(sp, 1));

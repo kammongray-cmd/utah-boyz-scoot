@@ -20,7 +20,7 @@ export class DroneCam {
 
   desired(p, hf, out) {
     const M = CAM_MODES[this.mode];
-    const a = this.yaw - 0.32; // a little off to one side: a 3/4 drone shot shows tricks better
+    const a = this.yaw - 0.12; // a little off to one side: a 3/4 drone shot shows tricks better
     const dx = Math.cos(a), dz = Math.sin(a);
     out.set(p.pos.x - dx * (M.d + this.lift * 0.6), p.pos.y + M.h + this.lift, p.pos.z - dz * (M.d + this.lift * 0.6));
     const g = hf.height(out.x, out.z);
@@ -37,13 +37,13 @@ export class DroneCam {
 
   update(dt, p, hf) {
     // which way should the drone face?
-    const flat = p.n.y > 0.965;
+    const flat = p.n.y > 0.9;
     let follow = 0;
-    if ((p.mode === 'ground' && flat) || p.mode === 'grind') follow = p.speed > 1.2 ? 2.4 : 0.8;
+    if ((p.mode === 'ground' && flat) || p.mode === 'grind') follow = p.speed > 1.2 ? 4.5 : 1.2;
     if (follow) {
       const target = p.speed > 1.2 ? p.travelHeading() : p.heading;
       const diff = Math.atan2(Math.sin(target - this.yaw), Math.cos(target - this.yaw));
-      this.yaw += THREE.MathUtils.clamp(diff * Math.min(1, dt * 2.2), -follow * dt, follow * dt);
+      this.yaw += THREE.MathUtils.clamp(diff * Math.min(1, dt * 4), -follow * dt, follow * dt);
     }
     // pull up and back on big airs so you can see the landing
     let lift = 0;

@@ -154,9 +154,9 @@ export class Input {
       }
     }
     // left stick flicked up = kick push
-    const lUp = L.y < -0.55;
+    const lUp = L.y < -0.45;
     if (lUp && !this._lUp) { this.events.push({ type: 'push' }); this._lastAutoPush = t; }
-    if (lUp && t - (this._lastAutoPush ?? 0) > 0.62) { this.events.push({ type: 'push', auto: true }); this._lastAutoPush = t; }
+    if (lUp && t - (this._lastAutoPush ?? 0) > 0.4) { this.events.push({ type: 'push', auto: true }); this._lastAutoPush = t; }
     this._lUp = lUp;
   }
 
